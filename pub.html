@@ -3,6 +3,35 @@
         <title>Publisher</title>
     </head>
     <body>
+    	<h1>Publishers</h1>
         <p><a href="index.html">Back home</a></p>
+        <fieldset>
+            <legend>Search by Publisher</legend>
+            <form>
+                Games published by 
+                <select>
+                    <option value="pub_option_1">Option1</option>
+                    <option value="pub_option_2">Option2</option>
+                    <option value="pub_option_3">Option3</option>
+                    <option value="pub_option_4">Option4</option>
+                </select>
+                <br>
+                <input type="submit" value="View" id="view_pub">
+            </form>
+        </fieldset>
+        <div>
+        	<p>
+        		Queried results go here
+        	</p>
+        </div>
+        <fieldset>
+            <legend>Add Publisher</legend>
+            <form>
+                <label for="developer">Publisher</label>
+                <input type="text" name="publisher" placeholder="Publisher" id="publisher" required>
+                <br>
+                <input type="submit" value="Add Publisher" id="submit_pub">
+            </form>
+        </fieldset>
     </body>
 </html>

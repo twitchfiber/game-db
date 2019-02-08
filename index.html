@@ -3,7 +3,7 @@
         <title>Games</title>
     </head>
     <body>
-        <h1>Game Menu:</h1>
+        <h1>Games</h1>
         <p>
             <a href="pub.html">Publisher Page</a> </br>
             <a href="dev.html">Developer Page</a> </br>
@@ -22,13 +22,16 @@
                 <label for="publisher">Publisher</label>
                 <input type="text" name="publisher" placeholder="publisher" id="publisher" required>
                 <br>
+                <label for="genre">Genre</label>
+                <input type="text" name="genre" placeholder="Genre" id="genre" required>
+                <br>
                 <label for="release_date">Release Date</label>
                 <input type="date" name="release_date" placeholder="0000-00-00" required>
                 <br>
                 <label for="score">Metacritic Score</label>
                 <input type="number" name="score" min="0" max="100" required>
                 <br>
-                <input type="submit" value="Add Game" id="submite_game">
+                <input type="submit" value="Add Game" id="submit_game">
                 <input type="reset" id="reset">
             </form>
         </fieldset>
