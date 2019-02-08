@@ -1,0 +1,23 @@
+{
+  "name": "game-db",
+  "version": "1.0.0",
+  "description": "Front-End with multiple HTML pages to interact with a MySQL database",
+  "main": "app.js",
+  "dependencies": {
+    "forever": "^0.15.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twitchfiber/game-db.git"
+  },
+  "author": "Frank",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twitchfiber/game-db/issues"
+  },
+  "homepage": "https://github.com/twitchfiber/game-db#readme"
+}
