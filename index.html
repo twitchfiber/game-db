@@ -10,5 +10,27 @@
             <a href="genre.html">Genre Page</a> </br>
             <a href="plat.html">Platform Page</a> </br>
         </p>
+        <fieldset>
+            <legend>Add Game</legend>
+            <form>
+                <label for="title">Title</label>
+                <input type="text" name="title" placeholder="Title" id="title" required>
+                <br>
+                <label for="developer">Developer</label>
+                <input type="text" name="title" placeholder="Developer" id="developer" required>
+                <br>
+                <label for="publisher">Publisher</label>
+                <input type="text" name="publisher" placeholder="publisher" id="publisher" required>
+                <br>
+                <label for="release_date">Release Date</label>
+                <input type="date" name="release_date" placeholder="0000-00-00" required>
+                <br>
+                <label for="score">Metacritic Score</label>
+                <input type="number" name="score" min="0" max="100" required>
+                <br>
+                <input type="submit" value="Add Game" id="submite_game">
+                <input type="reset" id="reset">
+            </form>
+        </fieldset>
     </body>
 </html>
