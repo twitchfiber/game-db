@@ -41,7 +41,7 @@ ALTER TABLE `platform` auto_increment = 1;
 CREATE TABLE `game` (
 	`game_id` int(11) auto_increment NOT NULL,
 	`title` varchar(100) NOT NULL,
-	`score` int(11) DEFAULT NULL,
+	`metacritic_score` int(11) DEFAULT NULL,
 	`release_date` DATE DEFAULT '0000-00-00', 
 	`genre` int(11) NOT NULL,
 	`publisher` int(11) NOT NULL,
@@ -63,8 +63,8 @@ CREATE TABLE `game_plat` (
 	`plat_id` int(11) NOT NULL,
 	PRIMARY KEY(`game_id`, `plat_id`),
 	KEY `game_id` (`game_id`),
-	CONSTRAINT `game_plat_ibfk_1` FOREIGN KEY(`game_id`) REFERENCES `game` (`game_id`),
-	CONSTRAINT `game_plat_ibfk_2` FOREIGN KEY(`plat_id`) REFERENCES `platform` (`plat_id`)
+	CONSTRAINT `game_plat_ibfk_1` FOREIGN KEY(`game_id`) REFERENCES `game` (`game_id`) ON DELETE CASCADE,
+	CONSTRAINT `game_plat_ibfk_2` FOREIGN KEY(`plat_id`) REFERENCES `platform` (`plat_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `game_plat` auto_increment = 1;
 
