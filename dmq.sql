@@ -12,10 +12,19 @@ SELECT g.title AS game_title, p.name AS platform_name FROM game g INNER JOIN
 game_plat gp ON (g.game_id = gp.game_id) INNER JOIN
 platform p ON (gp.plat_id = p.plat_id) WHERE g.title = :name_of_game_entered_by_user;
 
+-- display all games in database
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (g.publisher = p.pub_id)
+INNER JOIN developer d ON (g.developer = d.dev_id)
+INNER JOIN genre gen ON (g.genre = gen.genre_id);
+
+-- *what is this query used for?
 -- display all games with developer names
 SELECT g.title AS game_title, d.name AS developer_name FROM
 game g INNER JOIN developer d ON (g.developer = d.dev_id);
 
+-- *what is this query used for?
 -- display all games with the publishers
 SELECT g.title AS game_title, p.name AS publisher_name FROM
 game g INNER JOIN publisher p ON (g.publisher = pub_id);
@@ -65,16 +74,16 @@ WHERE d.name = :developer_chosen_from_dropdown;
 -- get all platforms possible to populate dropdown
 SELECT name FROM platform;
 
--- **Not currently getting all games from chosen platform
 -- use user-chosen platform dropdown result to display all games on that platform
 SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
 gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
-INNER JOIN publisher p ON (g.publisher = p.pub_id)
-INNER JOIN developer d ON (g.developer = d.dev_id)
-INNER JOIN genre gen ON (g.genre = gen.genre_id)
-INNER JOIN platform pl ON (g.game_id = pl.plat_id)
-INNER JOIN game_plat gp ON (g.game_id = gp.game_id AND gp.plat_id = p.plat_id)
+INNER JOIN publisher p ON (p.pub_id = g.publisher)
+INNER JOIN developer d ON (d.dev_id = g.developer)
+INNER JOIN genre gen ON (gen.genre_id = g.genre)
+INNER JOIN game_plat gp ON (gp.game_id = g.game_id)
+INNER JOIN platform pl ON (pl.plat_id = gp.plat_id)
 WHERE pl.name = :platform_chosen_from_dropdown;
+
 
 ----------------------------------------- INSERT QUERIES ----------------------------------------------------------
 -- insert game entity
