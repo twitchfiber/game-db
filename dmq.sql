@@ -19,16 +19,6 @@ INNER JOIN publisher p ON (g.publisher = p.pub_id)
 INNER JOIN developer d ON (g.developer = d.dev_id)
 INNER JOIN genre gen ON (g.genre = gen.genre_id);
 
--- *what is this query used for?
--- display all games with developer names
-SELECT g.title AS game_title, d.name AS developer_name FROM
-game g INNER JOIN developer d ON (g.developer = d.dev_id);
-
--- *what is this query used for?
--- display all games with the publishers
-SELECT g.title AS game_title, p.name AS publisher_name FROM
-game g INNER JOIN publisher p ON (g.publisher = pub_id);
-
 -- ***For Search by Genre function
 -- *augmented to get string names rather than genre_ids
 -- get all genres possible to populate a dropdown
