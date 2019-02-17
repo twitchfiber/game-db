@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 -- Data Manipulation Queries - game-db project
+=======
+- Data Manipulation Queries - game-db project
+>>>>>>> joel
 
 ----------------------------------------- SELECT QUERIES ----------------------------------------------------------
 -- lists the top 10 highest rated games in the database
@@ -6,6 +10,7 @@ SELECT title, metacritic_score, release_date FROM game
 ORDER BY metacritic_score DESC
 LIMIT 10;
 
+<<<<<<< HEAD
 -- find the platform of a game entered by user - search function
 SELECT g.title AS game_title, p.name AS platform_name FROM game g INNER JOIN
 game_plat gp ON (g.game_id = gp.game_id) INNER JOIN
@@ -25,6 +30,75 @@ SELECT genre FROM game GROUP BY genre;
 -- use dropdown genre result chosen by user to display all games under that genre
 SELECT title FROM game WHERE genre = :genre_chosen_from_dropdown;
 
+=======
+-- *changed p.id to p.plat_id to match DDL
+-- find the platform of a game entered by user - search function
+SELECT g.title AS game_title, p.name AS platform_name FROM game g INNER JOIN
+game_plat gp ON (g.game_id = gp.game_id) INNER JOIN
+platform p ON (gp.plat_id = p.plat_id) WHERE g.title = :name_of_game_entered_by_user;
+
+-- display all games in database
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (g.publisher = p.pub_id)
+INNER JOIN developer d ON (g.developer = d.dev_id)
+INNER JOIN genre gen ON (g.genre = gen.genre_id);
+
+-- ***For Search by Genre function
+-- *augmented to get string names rather than genre_ids
+-- get all genres possible to populate a dropdown
+SELECT name FROM genre;
+
+-- *agumented to use string names from dropdown rather than genre_ids
+-- use dropdown genre result chosen by user to display all games under that genre
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (g.publisher = p.pub_id)
+INNER JOIN developer d ON (g.developer = d.dev_id)
+INNER JOIN genre gen ON (g.genre = gen.genre_id)
+WHERE gen.name = :genre_chosen_from_dropdown;
+
+
+-- ***For Search by Publisher function
+-- get all publishers possible to populate dropdown
+SELECT name FROM publisher;
+
+-- use user-chosen publisher dropdown result to display all games by that publisher
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (g.publisher = p.pub_id)
+INNER JOIN developer d ON (g.developer = d.dev_id)
+INNER JOIN genre gen ON (g.genre = gen.genre_id)
+WHERE p.name = :publisher_chosen_from_dropdown;
+
+
+-- ***For Search by Developer function
+-- get all developers possible to populate dropdown
+SELECT name FROM developer;
+
+-- use user-chosen developer dropdown result to display all games by that developer
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (g.publisher = p.pub_id)
+INNER JOIN developer d ON (g.developer = d.dev_id)
+INNER JOIN genre gen ON (g.genre = gen.genre_id)
+WHERE d.name = :developer_chosen_from_dropdown;
+
+
+-- ***For Search by Platform function
+-- get all platforms possible to populate dropdown
+SELECT name FROM platform;
+
+-- use user-chosen platform dropdown result to display all games on that platform
+SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
+gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+INNER JOIN publisher p ON (p.pub_id = g.publisher)
+INNER JOIN developer d ON (d.dev_id = g.developer)
+INNER JOIN genre gen ON (gen.genre_id = g.genre)
+INNER JOIN game_plat gp ON (gp.game_id = g.game_id)
+INNER JOIN platform pl ON (pl.plat_id = gp.plat_id)
+WHERE pl.name = :platform_chosen_from_dropdown;
+>>>>>>> joel
 
 
 ----------------------------------------- INSERT QUERIES ----------------------------------------------------------
@@ -60,4 +134,8 @@ developer = developer_from_dropdown, publisher = platform_from_dropdown WHERE ti
 
 -----------------------------------------DELETE QUERIES ----------------------------------------------------------
 -- remove relationships M:M
+<<<<<<< HEAD
 DELETE FROM game_plat WHERE game_id = :game_dropdown AND plat_id = :plat_choices;
+=======
+DELETE FROM game_plat WHERE game_id = :game_dropdown AND plat_id = :plat_choices;
+>>>>>>> joel
