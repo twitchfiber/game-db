@@ -4,6 +4,35 @@
         <title>Genre</title>
     </head>
     <body>
+    	<h1>Genres</h1>
         <p><a href="index.html">Back home</a></p>
+        <fieldset>
+            <legend>Search by Genre</legend>
+            <form>
+                Games that are a  
+                <select>
+                    <option value="genre_option_1">Option1</option>
+                    <option value="genre_option_2">Option2</option>
+                    <option value="genre_option_3">Option3</option>
+                    <option value="genre_option_4">Option4</option>
+                </select>
+                <br>
+                <input type="submit" value="View" id="view_genre">
+            </form>
+        </fieldset>
+        <div>
+        	<p>
+        		Queried results go here
+        	</p>
+        </div>
+        <fieldset>
+            <legend>Add Genre</legend>
+            <form>
+                <label for="genre">Genre</label>
+                <input type="text" name="genre" placeholder="genre" id="genre" required>
+                <br>
+                <input type="submit" value="Add Genre" id="submit_genre">
+            </form>
+        </fieldset>
     </body>
 </html>
