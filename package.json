@@ -4,7 +4,11 @@
   "description": "Front-End with multiple HTML pages to interact with a MySQL database",
   "main": "app.js",
   "dependencies": {
-    "forever": "^0.15.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "forever": "^0.15.3",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {},
   "scripts": {

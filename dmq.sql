@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+-- CS 340 Project: Joel Huffman (huffmajo), Frank Li (lifr)
 -- Data Manipulation Queries - game-db project
-=======
-- Data Manipulation Queries - game-db project
->>>>>>> joel
 
 ----------------------------------------- SELECT QUERIES ----------------------------------------------------------
 -- lists the top 10 highest rated games in the database
@@ -10,27 +7,6 @@ SELECT title, metacritic_score, release_date FROM game
 ORDER BY metacritic_score DESC
 LIMIT 10;
 
-<<<<<<< HEAD
--- find the platform of a game entered by user - search function
-SELECT g.title AS game_title, p.name AS platform_name FROM game g INNER JOIN
-game_plat gp ON (g.game_id = gp.game_id) INNER JOIN
-platform p ON (gp.plat_id = p.id) WHERE g.title = :name_of_game_entered_by_user;
-
--- display all games with developer names
-SELECT g.title AS game_title, d.name AS developer_name FROM
-game g INNER JOIN developer d ON (g.developer = d.dev_id);
-
--- display all games with the publishers
-SELECT g.title AS game_title, p.name AS publisher_name FROM
-game g INNER JOIN publisher p ON (g.publisher = pub_id);
-
--- get all genres possible to populate a dropdown
-SELECT genre FROM game GROUP BY genre;
-
--- use dropdown genre result chosen by user to display all games under that genre
-SELECT title FROM game WHERE genre = :genre_chosen_from_dropdown;
-
-=======
 -- *changed p.id to p.plat_id to match DDL
 -- find the platform of a game entered by user - search function
 SELECT g.title AS game_title, p.name AS platform_name FROM game g INNER JOIN
@@ -98,7 +74,6 @@ INNER JOIN genre gen ON (gen.genre_id = g.genre)
 INNER JOIN game_plat gp ON (gp.game_id = g.game_id)
 INNER JOIN platform pl ON (pl.plat_id = gp.plat_id)
 WHERE pl.name = :platform_chosen_from_dropdown;
->>>>>>> joel
 
 
 ----------------------------------------- INSERT QUERIES ----------------------------------------------------------
@@ -134,8 +109,4 @@ developer = developer_from_dropdown, publisher = platform_from_dropdown WHERE ti
 
 -----------------------------------------DELETE QUERIES ----------------------------------------------------------
 -- remove relationships M:M
-<<<<<<< HEAD
 DELETE FROM game_plat WHERE game_id = :game_dropdown AND plat_id = :plat_choices;
-=======
-DELETE FROM game_plat WHERE game_id = :game_dropdown AND plat_id = :plat_choices;
->>>>>>> joel
