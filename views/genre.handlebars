@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Search Games by Genre</h3>
+            <form action="/genre_search" method="post">
+                <div class="form row">
+                    <div class="form-group col-md-8">
+                        <label>Games that are a</label> 
+                        <select class="form-control" name="genre_selected">
+                            {{#each genre_dropdown}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="search_by_genre">Search</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Add Genre</h3>
+            <form action="/genre_add" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label>Genre</label>
+                        <input type="text" class="form-control" name="genre" placeholder="Genre" id="genre" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit_genre">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <h3>Queried Games</h3>
+    <table class="table">
+        <thead>
+            <tr class="text-left"r>
+                <th scope="col">Title</th>
+                <th scope="col">Developer</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Metacritic Score</th>
+                <th scope="col">Release Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each results}}
+            <tr class="">
+                <td scope="row">{{this.game_title}}</td>
+                <td scope="row">{{this.developer_name}}</td>
+                <td scope="row">{{this.publisher_name}}</td>
+                <td scope="row">{{this.genre_name}}</td>
+                <td scope="row">{{this.metacritic_score}}</td>
+                <td scope="row">{{this.release_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

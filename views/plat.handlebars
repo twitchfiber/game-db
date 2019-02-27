@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Search Games by Platform</h3>
+            <form action="/plat_search" method="post">
+                <div class="form row">
+                    <div class="form-group col-md-4">
+                        <label>Games that can be played on</label>
+                        <select class="form-control" name="platform_search">
+                            {{#each platform_dropdown}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="view_by_plat">Search</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Add Platform</h3>
+            <form action="/new_plat" method="post">
+                <div class="form-group">
+                    <label>Platform</label>
+                    <input type="text" class="form-control col-md-8" name="new_plat" placeholder="Platform" id="platform" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit_plat">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <h3>Queried Games</h3>
+    <table class="table">
+        <thead>
+            <tr class="text-left">
+                <th align="left" scope="col">Title</th>
+                <th scope="col">Developer</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Metacritic Score</th>
+                <th scope="col">Release Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each results}}
+            <tr class="">
+                <td scope="row">{{this.game_title}}</td>
+                <td scope="row">{{this.developer_name}}</td>
+                <td scope="row">{{this.publisher_name}}</td>
+                <td scope="row">{{this.genre_name}}</td>
+                <td scope="row">{{this.metacritic_score}}</td>
+                <td scope="row">{{this.release_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<br>
+
+<div class="container">
+    <h3>Add additional platform to a game</h3>
+    <form action="/plat_add" method="post">
+        <div class="form-group">
+            <label>The game</label>
+            <select class="form-control col-md-8" id="game_selected" name="game_selected">
+                {{#each game_dropdown}}
+                <option value="{{this.title}}">{{this.title}}</option>
+                {{/each}}
+            </select>
+            <label>is also available on</label>
+            <select class="form-control col-md-8" id="platform_selected" name="platform_selected">
+                {{#each platform_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="add_game_plat">Add</button>
+    </form>
+</div>

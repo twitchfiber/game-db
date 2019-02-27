@@ -1,107 +1,104 @@
-<div class="container mt-5">
-    <h3>Add a Game</h3>
-    <form action="">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" name="title" placeholder="Type game title here" id="title" required>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label for="developer">Developer</label>
-                <select class="form-control" id="dev" name="developer">
-                    {{#each developer_dropdown}}
-                    <option value="{{this.name}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="publisher">Publisher</label>
-                <select class="form-control" id="pub" name="publisher">
-                    {{#each publisher_dropdown}}
-                    <option value="{{this.name}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="genre">Genre</label>
-                <select class="form-control" id="genre" name="genre">
-                    {{#each genre_dropdown}}
-                    <option value="{{this.name}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-
-        <div class="form row">
-            <div class="form-group col-md-4">
-                <label for="platform">Platform</label>
-                <select class="form-control" id="platform" name="platform">
-                    {{#each platform_dropdown}}
-                    <option value="{{this.title}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="release_date">Release Date</label>
-                <input type="date" class="form-control" name="release_date" placeholder="00-00-0000">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="metacritic_score">Metacritic Score</label>
-                <input type="number" class="form-control" name="metacritic_score" min="0" max="100" default="NULL">
-            </div>
-        </div>
-        <button type="reset" class="btn btn-primary" id="reset">Reset</button>
-        <button type="submit" class="btn btn-primary" id="submit_game">Add Game</button>
-    </form>
-</div>
-<br>
-<div class="container">
-    <h3>Add additional platform to a game</h3>
-    <form action="">
-        <div class="form-group">
-            <label>The game</label>
-            <select class="form-control col-md-4" id="game_plat_game" name="game_plat_game">
-                {{#each game_dropdown}}
-                <option value="{{this.title}}">{{this.title}}</option>
+<h3>Add a Game</h3>
+<form action="/addgame" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" placeholder="Type game title here" id="title" required>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="developer">Developer</label>
+            <select class="form-control" id="dev" name="developer">
+                {{#each developer_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
                 {{/each}}
             </select>
-            <label>is also available on</label>
-            <select class="form-control col-md-4" id="game_plat_plat" name="game_plat_plat">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="publisher">Publisher</label>
+            <select class="form-control" id="pub" name="publisher">
+                {{#each publisher_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="genre">Genre</label>
+            <select class="form-control" id="genre" name="genre">
+                {{#each genre_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form row">
+        <div class="form-group col-md-4">
+            <label for="platform">Platform</label>
+            <select class="form-control" id="platform" name="platform">
                 {{#each platform_dropdown}}
                 <option value="{{this.title}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" id="add_game_plat">Add</button>
-    </form>
-</div>
+        <div class="form-group col-md-4">
+            <label for="release_date">Release Date</label>
+            <input type="date" class="form-control" name="release_date" placeholder="00-00-0000">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="metacritic_score">Metacritic Score</label>
+            <input type="number" class="form-control" name="metacritic_score" min="0" max="100" default="NULL">
+        </div>
+    </div>
+    <button type="reset" class="btn btn-primary" id="reset">Reset</button>
+    <button type="submit" class="btn btn-primary" id="submit_game">Add Game</button>
+</form>
 
 <br>
 
-<div class="container">
-    <h3>Top 10 Games</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Developer</th>
-                <th scope="col">Publisher</th>
-                <th scope="col">Genre</th>
-                <th scope="col">Metacritic Score</th>
-                <th scope="col">Release Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each results}}
-            <tr class="">
-                <td scope="row">{{this.title}}</td>
-                <td scope="row">{{this.developer}}</td>
-                <td scope="row">{{this.publisher}}</td>
-                <td scope="row">{{this.genre}}</td>
-                <td scope="row">{{this.metacritic_score}}</td>
-                <td scope="row">{{this.release_date}}</td>
-            </tr>
+<h3>Add additional platform to a game</h3>
+<form action="/plat_add" method="post">
+    <div class="form-group">
+        <label>The game</label>
+        <select class="form-control col-md-4" id="game_plat_game" name="game_plat_game">
+            {{#each game_dropdown}}
+            <option value="{{this.title}}">{{this.title}}</option>
             {{/each}}
-        </tbody>
-    </table>
-</div>
+        </select>
+        <label>is also available on</label>
+        <select class="form-control col-md-4" id="game_plat_plat" name="game_plat_plat">
+            {{#each platform_dropdown}}
+            <option value="{{this.title}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" id="add_game_plat">Add</button>
+</form>
+
+<br>
+
+
+<h3>Top 10 Games</h3>
+<table class="table table-striped">
+    <thead>
+        <tr class="text-left"r>
+            <th scope="col">Title</th>
+            <th scope="col">Developer</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Metacritic Score</th>
+            <th scope="col">Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each results}}
+        <tr class="">
+            <td scope="row">{{this.title}}</td>
+            <td scope="row">{{this.developer}}</td>
+            <td scope="row">{{this.publisher}}</td>
+            <td scope="row">{{this.genre}}</td>
+            <td scope="row">{{this.metacritic_score}}</td>
+            <td scope="row">{{this.release_date}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
