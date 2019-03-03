@@ -14,7 +14,8 @@ var connection = mysql.createConnection(
         host: 'classmysql.engr.oregonstate.edu',
         user: 'cs340_lifr',
         password: '2268',
-        database: 'cs340_lifr'
+        database: 'cs340_lifr',
+        dateStrings: true
     }
 );
 
@@ -29,7 +30,7 @@ connection.connect(function(err) {
 // ------------------------------------------------------------------------------------------------
 app.get("/", function(req, res) {
     // find count of users in db
-    var top10 = "SELECT title, developer, publisher, genre, metacritic_score, release_date FROM game ORDER BY metacritic_score DESC";
+    var all_games = "SELECT title, developer, publisher, genre, metacritic_score, release_date FROM game ORDER BY metacritic_score DESC";
     var game_dropdown = "SELECT title FROM game";
     var platform_dropdown = "SELECT name FROM platform";
     var developer_dropdown = "SELECT name FROM developer";
@@ -37,9 +38,8 @@ app.get("/", function(req, res) {
     var genre_dropdown = "SELECT name FROM genre";
 
     connection.query("SELECT title FROM game", function(err, results) {
-        if (err) console.log(err);
+        if (err) throw err;
         game_dropdown = results;
-        console.log(results);
     });
 
     connection.query(platform_dropdown, function(err, results) {
@@ -62,7 +62,7 @@ app.get("/", function(req, res) {
         genre_dropdown = results;
     });
 
-    connection.query(top10, function(err, results) {
+    connection.query(all_games, function(err, results) {
         if (err) throw err;
         res.render("index", {
             results: results,
@@ -75,6 +75,82 @@ app.get("/", function(req, res) {
     });
 });
 
+// Adding a new game entity via INSERT
+app.post("/add_game", function(req, res) {
+    var plat_id = "SELECT plat_id FROM platform WHERE name = ?";
+    var plat_id_selected = [req.body.platform];
+
+    var pub_id = "SELECT pub_id FROM publisher WHERE name = ?";
+    var pub_id_selected = [req.body.publisher];
+
+    var dev_id = "SELECT dev_id FROM developer WHERE name = ?";
+    var dev_id_selected = [req.body.developer];
+
+    var genre_id = "SELECT genre_id FROM genre WHERE name = ?";
+    var genre_id_selected = [req.body.genre];
+
+    var add_game = "INSERT INTO game SET ?";
+    var associate = "INSERT INTO game_plat SET ?";
+    
+    // get platform id of what user entered in platform field
+    connection.query(plat_id, plat_id_selected, function(err, result) {
+        if (err) throw err;
+        plat_id = result;
+        plat_id = plat_id[0].plat_id;
+        console.log(plat_id);
+        connection.query(pub_id, pub_id_selected, function(err, result) {
+            if (err) throw err;
+            pub_id = result;
+            pub_id = pub_id[0].pub_id;
+            console.log(pub_id);
+            connection.query(dev_id, dev_id_selected, function(err, result) {
+                if (err) throw err;
+                dev_id = result;
+                dev_id = dev_id[0].dev_id;
+                console.log(dev_id);
+                connection.query(genre_id, genre_id_selected, function(err, result) {
+                    if (err) throw err;
+                    genre_id = result;
+                    genre_id = genre_id[0].genre_id;
+                    console.log(genre_id);
+                    // insert this game game object
+                    var game = {
+                        title: req.body.title,
+                        developer: dev_id,
+                        publisher: pub_id,
+                        genre: genre_id,
+                        release_date: req.body.release_date,
+                        metacritic_score: req.body.metacritic_score
+                    };
+                    var game_id = "SELECT game_id FROM game WHERE title = ?";
+                    var game_selected = [game.title];
+                    console.log("Date", game.release_date);
+
+                    // insert game entity
+                    connection.query(add_game, game, function(err, results) {
+                        if (err) throw err;
+                        // select for the game id of game just inserted
+                        connection.query(game_id, game_selected, function(err, result) {
+                            if (err) throw err;
+                            game_id = result;
+                            game_id = game_id[0].game_id;
+                            
+                            // create object with game_id and plat_id to associate with one another in another query
+                            var game_plat = {
+                                game_id: game_id,
+                                plat_id: plat_id
+                            };
+                            connection.query(associate, game_plat, function(err, results) {
+                                if (err) throw err;
+                                res.redirect("/");
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
 // ------------------------------------------------------------------------------------------------
 // PUBLISHER RELATED ROUTES
 // ------------------------------------------------------------------------------------------------
