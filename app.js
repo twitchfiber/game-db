@@ -30,7 +30,13 @@ connection.connect(function(err) {
 // ------------------------------------------------------------------------------------------------
 app.get("/", function(req, res) {
     // find count of users in db
-    var all_games = "SELECT title, developer, publisher, genre, metacritic_score, release_date FROM game ORDER BY metacritic_score DESC";
+    var all_games = "SELECT g.title AS game_title, d.name AS developer_name, \
+    p.name AS publisher_name, gen.name AS genre_name, \
+    g.release_date, g.metacritic_score FROM game g \
+    INNER JOIN publisher p ON (g.publisher = p.pub_id) \
+    INNER JOIN developer d ON (g.developer = d.dev_id) \
+    INNER JOIN genre gen ON (g.genre = gen.genre_id) \
+    ORDER BY metacritic_score DESC";
     var game_dropdown = "SELECT title FROM game";
     var platform_dropdown = "SELECT name FROM platform";
     var developer_dropdown = "SELECT name FROM developer";
@@ -227,6 +233,18 @@ app.post("/new_plat", function(req, res){
 });
 
 app.post("/plat_search", function(req, res){
+	var game_dropdown = "SELECT title FROM game";
+    var platform_dropdown = "SELECT name FROM platform";
+    
+    connection.query(game_dropdown, function(err, results) {
+        if (err) throw err;
+        game_dropdown = results;
+    });
+    connection.query(platform_dropdown, function(err, results) {
+        if (err) throw err;
+        platform_dropdown = results;
+    });
+
     var plat_query = "SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,\
         gen.name AS genre_name, g.metacritic_score, g.release_date FROM game g\
         INNER JOIN publisher p ON (p.pub_id = g.publisher)\
@@ -238,7 +256,11 @@ app.post("/plat_search", function(req, res){
     var platform_search = [req.body.platform_search];
     connection.query(plat_query, platform_search, function(err, results) {
         if (err) throw err;
-        res.render("plat", {results: results});
+        res.render("plat", {
+        	results: results,
+        	game_dropdown: game_dropdown,
+        	platform_dropdown: platform_dropdown
+        });
     });
 });
 
