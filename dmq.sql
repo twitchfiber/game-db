@@ -1,4 +1,5 @@
-- Data Manipulation Queries - game-db project
+-- CS 340 Project: Joel Huffman (huffmajo), Frank Li (lifr)
+-- Data Manipulation Queries - game-db project
 
 ----------------------------------------- SELECT QUERIES ----------------------------------------------------------
 -- lists the top 10 highest rated games in the database
