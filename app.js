@@ -15,7 +15,6 @@ var connection = mysql.createConnection(
         user: 'cs340_lifr',
         password: '2268',
         database: 'cs340_lifr',
-        dateStrings: true
     }
 );
 
@@ -97,22 +96,18 @@ app.post("/add_game", function(req, res) {
         if (err) throw err;
         plat_id = result;
         plat_id = plat_id[0].plat_id;
-        console.log(plat_id);
         connection.query(pub_id, pub_id_selected, function(err, result) {
             if (err) throw err;
             pub_id = result;
             pub_id = pub_id[0].pub_id;
-            console.log(pub_id);
             connection.query(dev_id, dev_id_selected, function(err, result) {
                 if (err) throw err;
                 dev_id = result;
                 dev_id = dev_id[0].dev_id;
-                console.log(dev_id);
                 connection.query(genre_id, genre_id_selected, function(err, result) {
                     if (err) throw err;
                     genre_id = result;
                     genre_id = genre_id[0].genre_id;
-                    console.log(genre_id);
                     // insert this game game object
                     var game = {
                         title: req.body.title,
@@ -124,7 +119,6 @@ app.post("/add_game", function(req, res) {
                     };
                     var game_id = "SELECT game_id FROM game WHERE title = ?";
                     var game_selected = [game.title];
-                    console.log("Date", game.release_date);
 
                     // insert game entity
                     connection.query(add_game, game, function(err, results) {
@@ -337,6 +331,6 @@ app.post("/dev_add", function(req, res){
     });
 });
 
-app.listen(6553, function(){
-    console.log("Server running on 6553");
+app.listen(7777, function(){
+    console.log("Server running on 7777");
 });
