@@ -89,9 +89,9 @@
             <th scope="col">Release Date</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="output">
         {{#each results}}
-        <tr class="">
+        <tr class="" id="{{this.id}}">
             <td scope="row">{{this.game_title}}</td>
             <td scope="row">{{this.developer_name}}</td>
             <td scope="row">{{this.publisher_name}}</td>
@@ -99,10 +99,11 @@
             <td scope="row">{{this.metacritic_score}}</td>
             <td scope="row">{{this.release_date}}</td>
             <td scope="row">
-                <button type="edit" class="btn btn-info" id="edit game">Edit</button></td>
+                <button type="edit" class="btn btn-info" id="edit_{{this.id}}">Edit</button></td>
             <td scope="row">
-                <button type="delete" class="btn btn-danger" id="delete game">Delete</button></td>
+                <button type="delete" class="btn btn-danger" id="delete_{{this.id}}">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="client.js"></script>

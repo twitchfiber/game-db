@@ -6,7 +6,9 @@ var app = express();
 
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static("public"));
 
 // CREATE CONNECTION OBJECT
 var connection = mysql.createConnection(
@@ -29,13 +31,14 @@ connection.connect(function(err) {
 // ------------------------------------------------------------------------------------------------
 app.get("/", function(req, res) {
     // find count of users in db
-    var all_games = "SELECT g.title AS game_title, d.name AS developer_name, \
+    var all_games = "SELECT g.game_id AS id, g.title AS game_title, d.name AS developer_name, \
     p.name AS publisher_name, gen.name AS genre_name, \
     g.release_date, g.metacritic_score FROM game g \
     INNER JOIN publisher p ON (g.publisher = p.pub_id) \
     INNER JOIN developer d ON (g.developer = d.dev_id) \
     INNER JOIN genre gen ON (g.genre = gen.genre_id) \
     ORDER BY metacritic_score DESC";
+
     var game_dropdown = "SELECT title FROM game";
     var platform_dropdown = "SELECT name FROM platform";
     var developer_dropdown = "SELECT name FROM developer";
@@ -149,6 +152,15 @@ app.post("/add_game", function(req, res) {
                 });
             });
         });
+    });
+});
+
+// delete game
+app.post("/delete_game", (req, res) => {
+    var query = "DELETE FROM game WHERE game_id=?";
+    connection.query(query, [req.body.id], (err, results) => {
+        if (err) throw err;
+        res.send("Deletion successful");
     });
 });
 // ------------------------------------------------------------------------------------------------
