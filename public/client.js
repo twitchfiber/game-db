@@ -7,7 +7,6 @@ function bindButtons() {
     for(var i = 0; i < tbody.length; i++) {
         if (tbody[i].tagName === "TR") {
             var row_id = tbody[i].id;
-            console.log(row_id);
             label_for_deletion(row_id);
         }
     }

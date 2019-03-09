@@ -163,6 +163,81 @@ app.post("/delete_game", (req, res) => {
         res.send("Deletion successful");
     });
 });
+
+// edit a game
+app.post("/edit_game", (req, res) => {
+    // console.log(req.body);
+    // console.log(req.body.edit_target);
+    var query = "SELECT * FROM game WHERE game_id=?";
+    var game_id = [req.body.edit_target];
+    connection.query(query, game_id, (err, row) => {
+        if (err) throw err;
+        var edit_id = req.body.edit_target;
+        // console.log(results);
+        // console.log(edit_id);
+        // console.log(results[0].title);
+        
+        var all_games = "SELECT g.game_id AS id, g.title AS game_title, d.name AS developer_name, \
+        p.name AS publisher_name, gen.name AS genre_name, \
+        g.release_date, g.metacritic_score FROM game g \
+        INNER JOIN publisher p ON (g.publisher = p.pub_id) \
+        INNER JOIN developer d ON (g.developer = d.dev_id) \
+        INNER JOIN genre gen ON (g.genre = gen.genre_id) \
+        ORDER BY metacritic_score DESC";
+    
+        var game_dropdown = "SELECT title FROM game";
+        var platform_dropdown = "SELECT name FROM platform";
+        var developer_dropdown = "SELECT name FROM developer";
+        var publisher_dropdown = "SELECT name FROM publisher";
+        var genre_dropdown = "SELECT name FROM genre";
+    
+        connection.query("SELECT title FROM game", function(err, results) {
+            if (err) throw err;
+            game_dropdown = results;
+        });
+    
+        connection.query(platform_dropdown, function(err, results) {
+            if (err) throw err;
+            platform_dropdown = results;
+        });
+    
+        connection.query(developer_dropdown, function(err, results) {
+            if (err) throw err;
+            developer_dropdown = results;
+        });
+    
+        connection.query(publisher_dropdown, function(err, results) {
+            if (err) throw err;
+            publisher_dropdown = results;
+        });
+    
+        connection.query(genre_dropdown, function(err, results) {
+            if (err) throw err;
+            genre_dropdown = results;
+        });
+    
+        connection.query(all_games, function(err, results) {
+            if (err) throw err;
+            res.render("edit", {
+                title: row[0].title,
+                edit_id: edit_id,
+                results: results,
+                platform_dropdown: platform_dropdown,
+                game_dropdown: game_dropdown,
+                developer_dropdown: developer_dropdown,
+                publisher_dropdown: publisher_dropdown,
+                genre_dropdown: genre_dropdown
+            });
+        });
+    });
+});
+
+app.post("/commit_edit", (req, res) => {
+
+    res.redirect("/", (req, res) => {
+        
+    });
+});
 // ------------------------------------------------------------------------------------------------
 // PUBLISHER RELATED ROUTES
 // ------------------------------------------------------------------------------------------------
