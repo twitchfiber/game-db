@@ -76,7 +76,6 @@
 
 <br>
 
-
 <h3>All Games</h3>
 <table class="table table-striped">
     <thead>
@@ -102,7 +101,7 @@
                 <td scope="row">{{this.release_date}}</td>
                 <td scope="row">
                 <form method="post" action="/edit_game">
-                    <input type="text" name="edit_target" style="display: none;" value="{{this.id}}">
+                    <input type="text" name="edit_target" style="display: none;" value={{this.id}}>
                     <button id="edit_{{this.id}}" type="submit" value="Edit" class="btn btn-info">Edit</button>
                 </form>
                 <td scope="row">

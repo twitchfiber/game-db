@@ -17,6 +17,7 @@ var connection = mysql.createConnection(
         user: 'cs340_lifr',
         password: '2268',
         database: 'cs340_lifr',
+        dateStrings: 'date'
     }
 );
 
@@ -164,19 +165,13 @@ app.post("/delete_game", (req, res) => {
     });
 });
 
-// edit a game
+// generate a page to edit game with the title as a set value
 app.post("/edit_game", (req, res) => {
-    // console.log(req.body);
-    // console.log(req.body.edit_target);
     var query = "SELECT * FROM game WHERE game_id=?";
     var game_id = [req.body.edit_target];
     connection.query(query, game_id, (err, row) => {
         if (err) throw err;
         var edit_id = req.body.edit_target;
-        // console.log(results);
-        // console.log(edit_id);
-        // console.log(results[0].title);
-        
         var all_games = "SELECT g.game_id AS id, g.title AS game_title, d.name AS developer_name, \
         p.name AS publisher_name, gen.name AS genre_name, \
         g.release_date, g.metacritic_score FROM game g \
@@ -232,12 +227,62 @@ app.post("/edit_game", (req, res) => {
     });
 });
 
+// upon submitting via edit menu, this route handles the DB changes and redirects back to main page
 app.post("/commit_edit", (req, res) => {
+    console.log("commit edit req object:", req.body);
+    console.log("----------------------------------");
 
-    res.redirect("/", (req, res) => {
-        
+    var q = "SELECT * FROM game WHERE game_id=?";
+    
+    var pub_id = "SELECT pub_id FROM publisher WHERE name = ?";
+    var pub_id_selected = [req.body.publisher];
+
+    var dev_id = "SELECT dev_id FROM developer WHERE name = ?";
+    var dev_id_selected = [req.body.developer];
+
+    var genre_id = "SELECT genre_id FROM genre WHERE name = ?";
+    var genre_id_selected = [req.body.genre];
+
+    // get pubid, dev-id, genre-id
+    connection.query(pub_id, pub_id_selected, (err, result) => {
+        if (err) throw err;
+        pub_id = result;
+        pub_id = pub_id[0].pub_id;
+        connection.query(dev_id, dev_id_selected, (err, result) => {
+            if (err) throw err;
+            dev_id = result;
+            dev_id = dev_id[0].dev_id;
+            connection.query(genre_id, genre_id_selected, (err, result) => {
+                if (err) throw err;
+                genre_id = result;
+                genre_id = genre_id[0].genre_id;
+                connection.query(q, [Number(req.body.id)], (err, results) => {
+                    if (err) throw err;
+                    //console.log(results);
+                    if (results.length == 1) {
+                        var curr_vals = results[0];
+                        var update = "UPDATE game SET developer=?, publisher=?, genre=?, metacritic_score=?, release_date=? WHERE game_id=?";
+                        connection.query(update, [
+                        dev_id || curr_vals.developer,
+                        pub_id || curr_vals.publisher,
+                        genre_id || curr_vals.genre,
+                        Number(req.body.metacritic_score) || curr_vals.metacritic_score,
+                        req.body.release_date || curr_vals.release_date,
+                        Number(req.body.id)],
+                        (err, results) => {
+                            if (err) throw err;
+                            var reselect = "SELECT * FROM game WHERE game_id=?"
+                            connection.query(reselect, [req.body.id], (err, results) => {
+                                if (err) throw err;
+                                res.redirect("/");
+                            });
+                        });
+                    };
+                });
+            });
+        });
     });
-});
+});         
 // ------------------------------------------------------------------------------------------------
 // PUBLISHER RELATED ROUTES
 // ------------------------------------------------------------------------------------------------
