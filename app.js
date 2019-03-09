@@ -259,6 +259,7 @@ app.post("/plat_search", function(req, res){
         INNER JOIN game_plat gp ON (gp.game_id = g.game_id)\
         INNER JOIN platform pl ON (pl.plat_id = gp.plat_id)\
         WHERE pl.name = ?";
+
     var platform_search = [req.body.platform_search];
     connection.query(plat_query, platform_search, function(err, results) {
         if (err) throw err;
@@ -266,6 +267,40 @@ app.post("/plat_search", function(req, res){
         	results: results,
         	game_dropdown: game_dropdown,
         	platform_dropdown: platform_dropdown
+        });
+    });
+});
+
+//adding additional platform to a game
+// select for the game id of game just inserted
+app.post("/plat_add", function(req, res) {
+    console.log(req.body);
+    var game_id = "SELECT game_id FROM game WHERE title=?";
+    var game_choice = [req.body.game_plat_game];
+
+    var plat_id = "SELECT plat_id from platform WHERE name=?";
+    var plat_choice = [req.body.game_plat_plat];
+
+    var associate = "INSERT INTO game_plat SET ?";
+    
+    connection.query(game_id, game_choice, function(err, result) {
+        if (err) throw err;
+        game_id = result;
+        game_id = game_id[0].game_id;
+        connection.query(plat_id, plat_choice, function(err, result) {
+            if (err) throw err;
+            plat_id = result;
+            plat_id = plat_id[0].plat_id;
+
+        // create object with game_id and plat_id to associate with one another in another query
+            var game_plat = {
+                game_id: game_id,
+                plat_id: plat_id
+            };
+            connection.query(associate, game_plat, function(err, results) {
+                if (err) throw err;
+                res.redirect("/");
+            });
         });
     });
 });
