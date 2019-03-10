@@ -229,8 +229,8 @@ app.post("/edit_game", (req, res) => {
 
 // upon submitting via edit menu, this route handles the DB changes and redirects back to main page
 app.post("/commit_edit", (req, res) => {
-    console.log("commit edit req object:", req.body);
-    console.log("----------------------------------");
+    // console.log("commit edit req object:", req.body);
+    // console.log("----------------------------------");
 
     var q = "SELECT * FROM game WHERE game_id=?";
     
@@ -371,7 +371,7 @@ app.post("/plat_search", function(req, res){
         platform_dropdown = results;
     });
 
-    var plat_query = "SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,\
+    var plat_query = "SELECT g.game_id, g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,\
         gen.name AS genre_name, g.metacritic_score, g.release_date FROM game g\
         INNER JOIN publisher p ON (p.pub_id = g.publisher)\
         INNER JOIN developer d ON (d.dev_id = g.developer)\
@@ -393,15 +393,16 @@ app.post("/plat_search", function(req, res){
 
 // delete platform from game
 app.post("/delete_plat_game", (req, res) => {
+    console.log("/delete_plat_game", req.body);
+    var game_id = req.body.id;
     var query = "DELETE FROM game_plat WHERE game_id = ? AND plat_id = ?";
     connection.query(query, [req.body.game_id, req.body.plat_id], (err, results) => {
         if (err) throw err;
         res.send("/plat");
-        console.log(JSON.stringify(req.body));
     });
 });
 
-//adding additional platform to a game
+// adding additional platform to a game
 // select for the game id of game just inserted
 app.post("/plat_add", function(req, res) {
     console.log(req.body);

@@ -1,26 +1,26 @@
-// Click listener for game delete function
-document.addEventListener("DOMContentLoaded", bindButtons);
+// Click listener for game_plat delete function
+document.addEventListener("DOMContentLoaded", bindGPButtons);
 
-function bindButtons() {
-    var tbody = document.getElementById("output").children;
-    console.log(tbody);
-    // add event listener to every edit button under tbody
+function bindGPButtons() {
+    var tbody = document.getElementById("gp_search_results").children;
+    // add delete button to every TR under tbody
+    console.log("tbody", tbody);
     for(var i = 0; i < tbody.length; i++) {
         if (tbody[i].tagName === "TR") {
             var row_id = tbody[i].id;
-            label_for_deletion(row_id);
+            gp_deletion(row_id);
         }
     }
 }
 
 // bind delete button
-function label_for_deletion(id) {
+function gp_deletion(id) {
     // get the delete button and add event listener to it
-    var del = document.getElementById("delete_" + id);
+    var del = document.getElementById("delete_gp_" + id);
     del.addEventListener("click", (event) => {
         // upon click, send a post request to delete entry from db
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/delete_game", true);
+        xhr.open("POST", "/delete_plat_game", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.addEventListener("load", () => {
             if (xhr.status >= 200 && xhr.status < 400) {
