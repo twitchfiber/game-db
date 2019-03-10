@@ -54,7 +54,7 @@ SELECT name FROM developer;
 
 -- use user-chosen developer dropdown result to display all games by that developer
 SELECT g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,
-gen.name AS genre_name, g.release_date, g.metacritic_score FROM game g 
+gen.name AS genre_name, g.metacritic_score, g.release_date FROM game g 
 INNER JOIN publisher p ON (g.publisher = p.pub_id)
 INNER JOIN developer d ON (g.developer = d.dev_id)
 INNER JOIN genre gen ON (g.genre = gen.genre_id)

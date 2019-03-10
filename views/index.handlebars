@@ -67,7 +67,7 @@
         <label>is also available on</label>
         <select class="form-control col-md-4" id="game_plat_plat" name="game_plat_plat">
             {{#each platform_dropdown}}
-            <option value="{{this.title}}">{{this.name}}</option>
+            <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}
         </select>
     </div>
@@ -76,33 +76,40 @@
 
 <br>
 
-
 <h3>All Games</h3>
 <table class="table table-striped">
     <thead>
         <tr class="text-left"r>
+            <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Developer</th>
             <th scope="col">Publisher</th>
             <th scope="col">Genre</th>
             <th scope="col">Metacritic Score</th>
             <th scope="col">Release Date</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="output">
         {{#each results}}
-        <tr class="">
-            <td scope="row">{{this.game_title}}</td>
-            <td scope="row">{{this.developer_name}}</td>
-            <td scope="row">{{this.publisher_name}}</td>
-            <td scope="row">{{this.genre_name}}</td>
-            <td scope="row">{{this.metacritic_score}}</td>
-            <td scope="row">{{this.release_date}}</td>
-            <td scope="row">
-                <button type="edit" class="btn btn-info" id="edit game">Edit</button></td>
-            <td scope="row">
-                <button type="delete" class="btn btn-danger" id="delete game">Delete</button></td>
-        </tr>
+            <tr class="" id="{{this.id}}">
+                <td scope="row">{{this.id}}</td>
+                <td scope="row">{{this.game_title}}</td>
+                <td scope="row">{{this.developer_name}}</td>
+                <td scope="row">{{this.publisher_name}}</td>
+                <td scope="row">{{this.genre_name}}</td>
+                <td scope="row">{{this.metacritic_score}}</td>
+                <td scope="row">{{this.release_date}}</td>
+                <td scope="row">
+                <form method="post" action="/edit_game">
+                    <input type="text" name="edit_target" style="display: none;" value={{this.id}}>
+                    <button id="edit_{{this.id}}" type="submit" value="Edit" class="btn btn-info">Edit</button>
+                </form>
+                <td scope="row">
+                    <button type="delete" class="btn btn-danger" id="delete_{{this.id}}">Delete</button>
+                </td>
+            </tr>
         {{/each}}
     </tbody>
 </table>

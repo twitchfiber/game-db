@@ -1,0 +1,47 @@
+<h3>Edit Game</h3>
+<form action="/commit_edit" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <h3>{{title}}</h3>
+        <input name="id" type="hidden" value="{{edit_id}}">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="developer">Developer</label>
+            <select class="form-control" id="dev" name="developer">
+                {{#each developer_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="publisher">Publisher</label>
+            <select class="form-control" id="pub" name="publisher">
+                {{#each publisher_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="genre">Genre</label>
+            <select class="form-control" id="genre" name="genre">
+                {{#each genre_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form row">
+        <div class="form-group col-md-4">
+            <label for="release_date">Release Date</label>
+            <input type="date" class="form-control" name="release_date" placeholder="YYYY-MM-DD">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="metacritic_score">Metacritic Score</label>
+            <input type="number" class="form-control" name="metacritic_score" min="0" max="100" default="NULL">
+        </div>
+    </div>
+    <button type="reset" class="btn btn-secondary" id="reset">Reset</button>
+    <button type="submit" class="btn btn-primary" id="save_game">Save</button>
+</form>
