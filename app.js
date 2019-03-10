@@ -371,7 +371,7 @@ app.post("/plat_search", function(req, res){
         platform_dropdown = results;
     });
 
-    var plat_query = "SELECT g.game_id, g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,\
+    var plat_query = "SELECT pl.plat_id, g.game_id, g.title AS game_title, d.name AS developer_name, p.name AS publisher_name,\
         gen.name AS genre_name, g.metacritic_score, g.release_date FROM game g\
         INNER JOIN publisher p ON (p.pub_id = g.publisher)\
         INNER JOIN developer d ON (d.dev_id = g.developer)\
@@ -394,7 +394,6 @@ app.post("/plat_search", function(req, res){
 // delete platform from game
 app.post("/delete_plat_game", (req, res) => {
     console.log("/delete_plat_game", req.body);
-    var game_id = req.body.id;
     var query = "DELETE FROM game_plat WHERE game_id = ? AND plat_id = ?";
     connection.query(query, [req.body.game_id, req.body.plat_id], (err, results) => {
         if (err) throw err;
