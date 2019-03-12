@@ -59,33 +59,11 @@
                 <td scope="row">{{this.metacritic_score}}</td>
                 <td scope="row">{{this.release_date}}</td>
                 <td scope="row">
-                    <button type="delete" class="btn btn-danger" id="delete_gp_{{this.game_id}}">Delete</button>
+                    <button type="delete" class="btn btn-danger" id="delete_gp_{{this.game_id}}">Remove Relationship</button>
                 </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-</div>
-<br>
-
-<div class="container">
-    <h3>Add additional platform to a game</h3>
-    <form action="/plat_add" method="post">
-        <div class="form-group">
-            <label>The game</label>
-            <select class="form-control col-md-8" id="game_selected" name="game_plat_game">
-                {{#each game_dropdown}}
-                <option value="{{this.title}}">{{this.title}}</option>
-                {{/each}}
-            </select>
-            <label>is also available on</label>
-            <select class="form-control col-md-8" id="platform_selected" name="game_plat_plat">
-                {{#each platform_dropdown}}
-                <option value="{{this.name}}">{{this.name}}</option>
-                {{/each}}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" id="add_game_plat">Add</button>
-    </form>
 </div>
 <script src="plat.js"></script>

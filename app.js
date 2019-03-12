@@ -411,7 +411,7 @@ app.post("/plat_add", function(req, res) {
     var plat_id = "SELECT plat_id from platform WHERE name=?";
     var plat_choice = [req.body.game_plat_plat];
 
-    var associate = "INSERT INTO game_plat SET ?";
+    var associate = "INSERT INTO game_plat SET ? ON DUPLICATE KEY UPDATE game_id = game_id, plat_id = plat_id";
     
     connection.query(game_id, game_choice, function(err, result) {
         if (err) throw err;
