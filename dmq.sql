@@ -2,10 +2,14 @@
 -- Data Manipulation Queries - game-db project
 
 ----------------------------------------- SELECT QUERIES ----------------------------------------------------------
--- lists the top 10 highest rated games in the database
-SELECT title, metacritic_score, release_date FROM game
-ORDER BY metacritic_score DESC
-LIMIT 10;
+-- show all games in a table
+SELECT g.game_id AS id, g.title AS game_title, d.name AS developer_name, \
+    p.name AS publisher_name, gen.name AS genre_name, \
+    g.release_date, g.metacritic_score FROM game g \
+    INNER JOIN publisher p ON (g.publisher = p.pub_id) \
+    INNER JOIN developer d ON (g.developer = d.dev_id) \
+    INNER JOIN genre gen ON (g.genre = gen.genre_id) \
+    ORDER BY metacritic_score DESC
 
 -- *changed p.id to p.plat_id to match DDL
 -- find the platform of a game entered by user - search function
@@ -96,17 +100,16 @@ INSERT INTO game (title, developer, publisher, release_date, metacritic_score, g
     INSERT INTO platform (name) VALUES (:platform_given_by_user);
 
 -- associate game_id with a plat_id, if we don't associate then plat_id should be NULL in game_plat
-INSERT INTO game_plat (game_id, plat_id) VALUES (:game_dropdown, :plat_dropdown)
-
-
-
+INSERT INTO game_plat SET ? ON DUPLICATE KEY UPDATE game_id = game_id, plat_id = plat_id;
 
 -- UPDATE QUERIES ----------------------------------------------------------
 UPDATE game SET title = :newTitle, :metacriticScoreInput, release_date = :releaseDateInput; genre = :genre_chosen_from_dropdown,
 developer = developer_from_dropdown, publisher = platform_from_dropdown WHERE title = :title_from_dropdown;
 
 
-
 -----------------------------------------DELETE QUERIES ----------------------------------------------------------
 -- remove relationships M:M
 DELETE FROM game_plat WHERE game_id = :game_dropdown AND plat_id = :plat_choices;
+
+-- deleting a game entity on the main page
+DELETE FROM game WHERE game_id=:game_id_from_table;
