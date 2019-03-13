@@ -1,0 +1,117 @@
+<h3>Add a Game</h3>
+<form action="/add_game" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" placeholder="Type game title here" id="title" required>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="developer">Developer</label>
+            <select class="form-control" id="dev" name="developer">
+                {{#each developer_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="publisher">Publisher</label>
+            <select class="form-control" id="pub" name="publisher">
+                {{#each publisher_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="genre">Genre</label>
+            <select class="form-control" id="genre" name="genre">
+                {{#each genre_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form row">
+        <div class="form-group col-md-4">
+            <label for="platform">Platform</label>
+            <select class="form-control" id="platform" name="platform">
+                {{#each platform_dropdown}}
+                <option value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="release_date">Release Date</label>
+            <input type="date" class="form-control" name="release_date" placeholder="YYYY-MM-DD">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="metacritic_score">Metacritic Score</label>
+            <input type="number" class="form-control" name="metacritic_score" min="0" max="100" default="NULL">
+        </div>
+    </div>
+    <button type="reset" class="btn btn-primary" id="reset">Reset</button>
+    <button type="submit" class="btn btn-primary" id="add_game">Add Game</button>
+</form>
+
+<br>
+
+<h3>Add additional platform to a game</h3>
+<form action="/plat_add" method="post">
+    <div class="form-group">
+        <label>The game</label>
+        <select class="form-control col-md-4" id="game_plat_game" name="game_plat_game">
+            {{#each game_dropdown}}
+            <option value="{{this.title}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+        <label>is also available on</label>
+        <select class="form-control col-md-4" id="game_plat_plat" name="game_plat_plat">
+            {{#each platform_dropdown}}
+            <option value="{{this.name}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" id="add_game_plat">Add Relationship</button>
+</form>
+
+<br>
+
+<h3>All Games</h3>
+<table class="table table-striped">
+    <thead>
+        <tr class="text-left"r>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Developer</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Metacritic Score</th>
+            <th scope="col">Release Date</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody id="output">
+        {{#each results}}
+            <tr class="" id="{{this.id}}">
+                <td scope="row">{{this.id}}</td>
+                <td scope="row">{{this.game_title}}</td>
+                <td scope="row">{{this.developer_name}}</td>
+                <td scope="row">{{this.publisher_name}}</td>
+                <td scope="row">{{this.genre_name}}</td>
+                <td scope="row">{{this.metacritic_score}}</td>
+                <td scope="row">{{this.release_date}}</td>
+                <td scope="row">
+                <form method="post" action="/edit_game">
+                    <input type="text" name="edit_target" style="display: none;" value={{this.id}}>
+                    <button id="edit_{{this.id}}" type="submit" value="Edit" class="btn btn-info">Edit</button>
+                </form>
+                <td scope="row">
+                    <button type="delete" class="btn btn-danger" id="delete_{{this.id}}">Delete</button>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="client.js"></script>
+

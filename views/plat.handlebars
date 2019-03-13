@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Search Games by Platform</h3>
+            <form action="/plat_search" method="post">
+                <div class="form row">
+                    <div class="form-group col-md-4">
+                        <label>Games that can be played on</label>
+                        <select class="form-control" name="platform_search">
+                            {{#each platform_dropdown}}
+                            <option value="{{this.name}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="view_by_plat">Search</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Add Platform</h3>
+            <form action="/new_plat" method="post">
+                <div class="form-group">
+                    <label>Platform</label>
+                    <input type="text" class="form-control col-md-8" name="new_plat" placeholder="Platform" id="platform" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit_plat">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <h3>Queried Games</h3>
+    <table class="table">
+        <thead>
+            <tr class="text-left">
+                <th scope="col">Plat ID</th>
+                <th scope="col">Game ID</td>
+                <th align="left" scope="col">Title</th>
+                <th scope="col">Developer</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Metacritic Score</th>
+                <th scope="col">Release Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="gp_search_results">
+            {{#each results}}
+            <tr class="" id="{{this.game_id}}">
+                <td id="plat_id_{{this.game_id}}" scope="row">{{this.plat_id}}</td>
+                <td scope="row">{{this.game_id}}</td>
+                <td scope="row">{{this.game_title}}</td>
+                <td scope="row">{{this.developer_name}}</td>
+                <td scope="row">{{this.publisher_name}}</td>
+                <td scope="row">{{this.genre_name}}</td>
+                <td scope="row">{{this.metacritic_score}}</td>
+                <td scope="row">{{this.release_date}}</td>
+                <td scope="row">
+                    <button type="delete" class="btn btn-danger" id="delete_gp_{{this.game_id}}">Remove Relationship</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<script src="plat.js"></script>
